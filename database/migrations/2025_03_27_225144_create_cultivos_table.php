@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('tipo', 32);
             $table->date('siembra');
             $table->date('cosecha');
-            $table->date('estado');
+            $table->string('estado', 32);
             $table->timestamps();
         });
     }

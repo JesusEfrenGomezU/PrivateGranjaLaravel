@@ -30,6 +30,22 @@
             </a>
         </li>
 
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ route('cultivos.index') }}">
+                <i class="bi bi-menu-button-wide"></i>
+                <span>Cultivos</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ route('cosechas.index') }}">
+                <i class="bi bi-menu-button-wide"></i>
+                <span>Cosechas</span>
+            </a>
+        </li>
+
+
+
 
     </ul>
 
