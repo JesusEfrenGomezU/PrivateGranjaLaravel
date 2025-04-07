@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('cosechas', function (Blueprint $table) {
             $table->id();
-            $table->integer('CodigoCultivo');
-            $table->string('Usuario');
+            $table->unsignedBigInteger('cultivo_id');
             $table->integer('Recolectado');
             $table->string('Medida');
             $table->date('FechaCosecha');
             $table->timestamps();
+
+            $table->foreign('cultivo_id')->references('id')->on('cultivos');
         });
     }
 

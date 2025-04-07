@@ -1,4 +1,3 @@
-
 @extends('layouts.app')
 
 @section('content')
@@ -23,35 +22,33 @@
                 <form action="{{ route('cosechas.store') }}" class="row g-3" method="POST">
                     @csrf
 
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-floating">
-                            <input type="number" class="form-control" placeholder="Digite el código de cultivo..." name="CodigoCultivo">
-                            <label>Código de Cultivo</label>
+                            <select class="form-select" name="cultivo_id">
+                                <option value="">Seleccione un Cultivo</option>
+                                @foreach ($cultivos as $cultivo)
+                                    <option value="{{ $cultivo->id }}">{{ $cultivo->tipo }}</option>
+                                @endforeach
+                            </select>
+                            <label>Cultivo</label>
                         </div>
                     </div>
 
-                    <div class="col-md-12">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" placeholder="Digite el usuario..." name="Usuario">
-                            <label>Usuario</label>
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-floating">
                             <input type="number" class="form-control" placeholder="Digite el valor recolectado..." name="Recolectado">
                             <label>Recolectado</label>
                         </div>
                     </div>
 
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-floating">
                             <input type="text" class="form-control" placeholder="Digite la medida..." name="Medida">
                             <label>Medida</label>
                         </div>
                     </div>
 
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-floating">
                             <input type="date" class="form-control" placeholder="Digite la fecha de cosecha..." name="FechaCosecha">
                             <label>Fecha de Cosecha</label>
@@ -62,6 +59,7 @@
                         <button type="submit" class="btn btn-primary">Guardar</button>
                         <a href="{{ route('cosechas.index') }}" class="btn btn-secondary">Volver</a>
                     </div>
+
                 </form>
             </div>
         </div>

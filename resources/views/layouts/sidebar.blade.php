@@ -44,7 +44,12 @@
             </a>
         </li>
 
-
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ route('cultivoparcelas.index') }}">
+                <i class="bi bi-menu-button-wide"></i>
+                <span>Cultivos Parcelas</span>
+            </a>
+        </li>
 
 
     </ul>

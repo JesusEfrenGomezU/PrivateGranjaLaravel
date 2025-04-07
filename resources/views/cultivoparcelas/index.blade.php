@@ -2,11 +2,11 @@
 
 @section('content')
 <div class="pagetitle">
-    <h1>Cosechas</h1>
+    <h1>Cultivo-Parcelas</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-            <li class="breadcrumb-item active">Cosechas</li>
+            <li class="breadcrumb-item active">Cultivo-Parcelas</li>
         </ol>
     </nav>
 </div>
@@ -16,19 +16,17 @@
         <div class="card-header">
             <div class="row">
                 <div class="col-md-11">
-                    <h3>Cosechas</h3>
+                    <h3>Cultivo-Parcelas</h3>
                 </div>
                 <div class="col-md-1">
-                    <a href="{{ route('cosechas.create') }}" class="btn btn-primary">
-                        <i class="bi bi-plus-circle-fill"></i>
-                    </a>
+                    <a href="{{ route('cultivoparcelas.create') }}" class="btn btn-primary"><i class="bi bi-plus-circle-fill"></i></a>
                 </div>
             </div>
         </div>
 
         <div class="card-body">
             {{-- Paginador --}}
-            <form action="{{ route('cosechas.index') }}" class="navbar-search" method="GET">
+            <form action="{{ route('cultivoparcelas.index') }}" class="navbar-search" method="GET">
                 <div class="row mt-3">
                     <div class="col-md-auto">
                         <select name="records_per_page" class="form-select bg-light border-0 small" value="{{ $data->records_per_page }}">
@@ -53,9 +51,7 @@
 
                     <div class="col-md-auto">
                         <div class="input-group-mb-3">
-                            <button class="btn btn-primary">
-                                <i class="bi bi-search"></i>
-                            </button>
+                            <button class="btn btn-primary"><i class="bi bi-search"></i></button>
                         </div>
                     </div>
                 </div>
@@ -66,28 +62,28 @@
                 <thead>
                     <tr>
                         <th>Id</th>
+                        <th>Descripción</th>
+                        <th>Fecha de Registro</th>
+                        <th>Parcela</th>
                         <th>Cultivo</th>
-                        <th>Recolectado</th>
-                        <th>Medida</th>
-                        <th>Fecha de Cosecha</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($cosechas as $cosecha)
+                    @foreach ($cultivoparcelas as $registro)
                         <tr>
-                            <td>{{ $cosecha->id }}</td>
-                            <td>{{ $cosecha->cultivo->tipo }}</td>
-                            <td>{{ $cosecha->Recolectado }}</td>
-                            <td>{{ $cosecha->Medida }}</td>
-                            <td>{{ $cosecha->FechaCosecha }}</td>
+                            <td>{{ $registro->id }}</td>
+                            <td>{{ $registro->Descripcion }}</td>
+                            <td>{{ $registro->FechaRegistro }}</td>
+                            <td>{{ $registro->parcela->ubicacion }}</td>
+                            <td>{{ $registro->cultivo->tipo }}</td>
                             <td>
                                 {{-- Botón edit --}}
-                                <a href="{{ route('cosechas.edit', $cosecha->id) }}" class="btn btn-warning">
+                                <a href="{{ route('cultivoparcelas.edit', $registro->id) }}" class="btn btn-warning">
                                     <i class="bi bi-pencil-fill"></i>
                                 </a>
                                 {{-- Botón delete --}}
-                                <form action="{{ route('cosechas.delete', $cosecha->id) }}" style="display: contents;" method="POST">
+                                <form action="{{ route('cultivoparcelas.delete', $registro->id) }}" style="display: contents;" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-danger btnDelete">
@@ -100,7 +96,7 @@
                 </tbody>
             </table>
             {{-- Paginador inferior --}}
-            {{ $cosechas->appends(request()->except('page'))->links('components.customPagination') }}
+            {{ $cultivoparcelas->appends(request()->except('page'))->links('components.customPagination') }}
         </div>
     </div>
 </section>
@@ -111,7 +107,7 @@
         $('.btnDelete').click(function(event) {
             event.preventDefault();
             Swal.fire({
-                title: "¿Desea eliminar esta Cosecha?",
+                title: "¿Desea eliminar este registro?",
                 text: "No podrá revertirlo",
                 icon: 'question',
                 showCancelButton: true,

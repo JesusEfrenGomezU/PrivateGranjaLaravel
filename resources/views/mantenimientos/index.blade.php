@@ -19,14 +19,16 @@
                     <h3>Mantenimientos</h3>
                 </div>
                 <div class="col-md-1">
-                    <a href="{{ route('mantenimientos.create') }}" class="btn btn-primary"><i class="bi bi-plus-circle-fill"></i></a>
+                    <a href="{{ route('mantenimientos.create') }}" class="btn btn-primary">
+                        <i class="bi bi-plus-circle-fill"></i>
+                    </a>
                 </div>
             </div>
         </div>
 
         <div class="card-body">
             {{-- Paginador --}}
-            <form action="{{ route('mantenimientos.index') }}" class="navbar-search" method="GET">
+            <form action="{{ route('mantenimientos.index') }}" method="GET" class="navbar-search">
                 <div class="row mt-3">
                     <div class="col-md-auto">
                         <select name="records_per_page" class="form-select bg-light border-0 small" value="{{ $data->records_per_page }}">
@@ -40,51 +42,43 @@
 
                     <div class="col-md-10">
                         <div class="input-group-mb-3">
-                            <input type="text"
-                                   class="form-control bg-light border-0 small"
-                                   placeholder="Buscar..."
-                                   aria-label="search"
-                                   name="filter"
-                                   value="{{ $data->filter }}">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar..." aria-label="search" name="filter" value="{{ $data->filter }}">
                         </div>
                     </div>
 
                     <div class="col-md-auto">
                         <div class="input-group-mb-3">
-                            <button class="btn btn-primary"><i class="bi bi-search"></i></button>
+                            <button class="btn btn-primary">
+                                <i class="bi bi-search"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
             </form>
 
-            {{-- Botones del CRUD --}}
+            {{-- Lista de registros --}}
             <table class="table table-bordered mt-3">
                 <thead>
                     <tr>
                         <th>Id</th>
-                        <th>Código de Parcela</th>
-                        <th>Usuario</th>
+                        <th>Parcela</th>
                         <th>Descripción</th>
                         <th>Fecha de Mantenimiento</th>
                         <th></th>
                     </tr>
                 </thead>
-
                 <tbody>
                     @foreach ($mantenimientos as $mantenimiento)
                         <tr>
                             <td>{{ $mantenimiento->id }}</td>
-                            <td>{{ $mantenimiento->CodigoParcela }}</td>
-                            <td>{{ $mantenimiento->Usuario }}</td>
+                            <td>{{ $mantenimiento->parcela->ubicacion }}</td>
                             <td>{{ $mantenimiento->Descripcion }}</td>
                             <td>{{ $mantenimiento->FechaMantenimiento }}</td>
                             <td>
-                                {{-- Botón edit --}}
                                 <a href="{{ route('mantenimientos.edit', $mantenimiento->id) }}" class="btn btn-warning">
                                     <i class="bi bi-pencil-fill"></i>
                                 </a>
-                                {{-- Botón delete --}}
-                                <form action="{{ route('mantenimientos.delete', $mantenimiento->id) }}" style="display: contents;" method="POST">
+                                <form action="{{ route('mantenimientos.delete', $mantenimiento->id) }}" method="POST" style="display: contents;">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-danger btnDelete">
@@ -96,7 +90,6 @@
                     @endforeach
                 </tbody>
             </table>
-            {{-- Paginador de la parte inferior --}}
             {{ $mantenimientos->appends(request()->except('page'))->links('components.customPagination') }}
         </div>
     </div>
@@ -105,10 +98,8 @@
 
 <script type="module">
     $(document).ready(function() {
-        // Intercepta el evento DELETE mediante su clase btnDelete
         $('.btnDelete').click(function(event) {
             event.preventDefault();
-
             Swal.fire({
                 title: "¿Desea eliminar este Mantenimiento?",
                 text: "No podrá revertirlo",
@@ -116,8 +107,7 @@
                 showCancelButton: true,
             }).then((result) => {
                 if (result.isConfirmed) {
-                    const form = $(this).closest('form');
-                    form.submit();
+                    $(this).closest('form').submit();
                 }
             });
         });
