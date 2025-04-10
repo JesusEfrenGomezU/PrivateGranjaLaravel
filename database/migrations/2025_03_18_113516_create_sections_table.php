@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cultivos', function (Blueprint $table) {
+        Schema::create('sections', function (Blueprint $table) {
             $table->id();
-            $table->string('tipo', 32);
-            $table->date('siembra');
-            $table->date('cosecha');
-            $table->date('estado');
+            $table->string('name', 64);
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cultivos');
+        Schema::dropIfExists('sections');
     }
 };

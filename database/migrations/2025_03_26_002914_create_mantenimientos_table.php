@@ -13,11 +13,14 @@ return new class extends Migration
     {
         Schema::create('mantenimientos', function (Blueprint $table) {
             $table->id();
-            $table->integer('CodigoParcela');
-            $table->string('Usuario');
+            $table->unsignedBigInteger('parcela_id');
+            //$table->unsignedBigInteger('usuario_id');
             $table->string('Descripcion');
             $table->date('FechaMantenimiento');
             $table->timestamps();
+
+            $table->foreign('parcela_id')->references('id')->on('parcelas');
+            //$table->foreign('usuario_id')->references('id')->on('usuarios');
         });
     }
 

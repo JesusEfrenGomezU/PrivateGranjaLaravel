@@ -1,35 +1,33 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="pagetitle">
-    <h1>Parcelas</h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-            <li class="breadcrumb-item active">Parcelas</li>
-        </ol>
-    </nav>
-</div>
-
-
-
+    <div class="pagetitle">
+        <h1>Secciones</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                <li class="breadcrumb-item active">Secciones</li>
+            </ol>
+        </nav>
+    </div>
 
     <section class="section dashboard">
         <div class="card">
             <div class="card-header">
                 <div class="row">
                     <div class="col-md-11">
-                        <h3>Parcelas</h3>
+                        <h3>Secciones</h3>
                     </div>
                     <div class="col-md-1">
-                        <a href="{{ route('parcelas.create') }}" class="btn btn-primary"><i class="bi bi-plus-circle-fill"></i></a>
+                        <a href="{{ route('sections.create') }}" class="btn btn-primary"><i class="bi bi-plus-circle-fill"></i></a>
                     </div>
                 </div>
             </div>
 
             <div class="card-body">
+
                 {{-- Paginador --}}
-                <form action="{{ route('parcelas.index') }}" class="navbar-search" method="GET">
+                <form action="{{ route('sections.index') }}" class="navbar-search" method="GET">
 
                     <div class="row mt-3">
                         <div class="col-md-auto">
@@ -71,35 +69,25 @@
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Tamaño</th>
-                            <th>Ubicacion</th>
-                            <th>Estado</th>
-                            <th>Usuario</th>
+                            <th>Nombre</th>
                             <th></th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        @foreach ($parcelas as $parcela)
+                        @foreach ($sections as $section)
 
                             <tr>
-                                <td>{{ $parcela->id }}</td>
-                                <td>{{ $parcela->tamano }}</td>
-                                <td>{{ $parcela->ubicacion }}</td>
-                                <td>{{ $parcela->estado }}</td>
-                                <td>{{ $parcela->usuario }}</td>
+                                <td>{{ $section->id }}</td>
+                                <td>{{ $section->name }}</td>
                                 <td>
                                     {{-- Boton edit --}}
-                                    <a href="{{ route('parcelas.edit', $parcela->id) }}" class="btn btn-warning">
-                                        <i class="bi bi-pencil-fill"></i>
-                                    </a>
+                                    <a href="{{ route('sections.edit', $section->id) }}" class="btn btn-warning"><i class="bi bi-pencil-fill"></i></a>
                                     {{-- Boton delete --}}
-                                    <form action="{{ route('parcelas.delete', $parcela->id) }}" style="display: contents;" method="POST">
+                                    <form action="{{ route('sections.delete', $section->id) }}" style="display: contents;" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-danger btnDelete">
-                                            <i class="bi bi-trash-fill"></i>
-                                        </button>
+                                        <button class="btn btn-danger btnDelete"><i class="bi bi-trash-fill"></i></button>
                                     </form>
                                 </td>
                             </tr>
@@ -108,13 +96,11 @@
                     </tbody>
                 </table>
                 {{-- Paginador de la parte inferior --}}
-                {{ $parcelas->appends(request()->except('page'))->links('components.customPagination') }}
-
+                {{ $sections->appends(request()->except('page'))->links('components.customPagination') }}
             </div>
         </div>
     </section>
 @endsection
-
 
 <script type="module">
 
@@ -127,7 +113,7 @@
 
             Swal.fire({
 
-                title: "¿Desea eliminar esta Parcela?",
+                title: "¿Desea eliminar la sección?",
                 text: "No podrá revertirlo",
                 icon: 'question',
                 showCancelButton: true,
@@ -145,4 +131,3 @@
     });
 
 </script>
-

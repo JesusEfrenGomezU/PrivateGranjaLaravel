@@ -15,6 +15,43 @@
                 <span>Secciones</span>
             </a>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ route('parcelas.index') }}">
+                <i class="bi bi-menu-button-wide"></i>
+                <span>Parcelas</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ route('mantenimientos.index') }}">
+                <i class="bi bi-menu-button-wide"></i>
+                <span>Mantenimientos</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ route('cultivos.index') }}">
+                <i class="bi bi-menu-button-wide"></i>
+                <span>Cultivos</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ route('cosechas.index') }}">
+                <i class="bi bi-menu-button-wide"></i>
+                <span>Cosechas</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ route('cultivoparcelas.index') }}">
+                <i class="bi bi-menu-button-wide"></i>
+                <span>Cultivos Parcelas</span>
+            </a>
+        </li>
+
+
     </ul>
 
 </aside>

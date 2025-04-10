@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cosechas', function (Blueprint $table) {
+        Schema::create('cultivos', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('cultivo_id');
-            $table->integer('Recolectado');
-            $table->string('Medida');
-            $table->date('FechaCosecha');
+            $table->string('tipo', 32);
+            $table->date('siembra');
+            $table->date('cosecha');
+            $table->string('estado', 32);
             $table->timestamps();
-
-            $table->foreign('cultivo_id')->references('id')->on('cultivos');
         });
     }
 
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cosechas');
+        Schema::dropIfExists('cultivos');
     }
 };
