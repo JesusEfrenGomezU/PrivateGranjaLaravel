@@ -18,9 +18,6 @@
                 <div class="col-md-11">
                     <h3>Cultivo-Parcelas</h3>
                 </div>
-                <div class="col-md-1">
-                    <a href="{{ route('cultivoparcelas.create') }}" class="btn btn-primary"><i class="bi bi-plus-circle-fill"></i></a>
-                </div>
             </div>
         </div>
 
@@ -76,21 +73,7 @@
                             <td>{{ $registro->Descripcion }}</td>
                             <td>{{ $registro->FechaRegistro }}</td>
                             <td>{{ $registro->parcela->ubicacion }}</td>
-                            <td>{{ $registro->cultivo->tipo }}</td>
-                            <td>
-                                {{-- Botón edit --}}
-                                <a href="{{ route('cultivoparcelas.edit', $registro->id) }}" class="btn btn-warning">
-                                    <i class="bi bi-pencil-fill"></i>
-                                </a>
-                                {{-- Botón delete --}}
-                                <form action="{{ route('cultivoparcelas.delete', $registro->id) }}" style="display: contents;" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-danger btnDelete">
-                                        <i class="bi bi-trash-fill"></i>
-                                    </button>
-                                </form>
-                            </td>
+                            <td>{{ $registro->cultivo->tipo }}</td>|
                         </tr>
                     @endforeach
                 </tbody>
@@ -102,21 +85,3 @@
 </section>
 @endsection
 
-<script type="module">
-    $(document).ready(function() {
-        $('.btnDelete').click(function(event) {
-            event.preventDefault();
-            Swal.fire({
-                title: "¿Desea eliminar este registro?",
-                text: "No podrá revertirlo",
-                icon: 'question',
-                showCancelButton: true,
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const form = $(this).closest('form');
-                    form.submit();
-                }
-            });
-        });
-    });
-</script>
