@@ -9,7 +9,7 @@ class Cultivoparcela extends Model
 
     protected $fillable = [
         'Descripcion',
-        'FechaRegistro',
+        'fecha_registro',
         'parcela_id',
         'cultivo_id',
     ];

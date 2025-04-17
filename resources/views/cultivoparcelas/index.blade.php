@@ -74,7 +74,7 @@
                         <tr>
                             <td>{{ $registro->id }}</td>
                             <td>{{ $registro->Descripcion }}</td>
-                            <td>{{ $registro->FechaRegistro }}</td>
+                            <td>{{ $registro->fecha_registro }}</td>
                             <td>{{ $registro->parcela->ubicacion }}</td>
                             <td>{{ $registro->cultivo->tipo }}</td>
                             <td>

@@ -23,10 +23,10 @@ class CultivoparcelasController extends Controller
         }
 
         // Se cargan las relaciones para poder mostrar los nombres en la vista y se permite filtrar también por
-        // el campo Descripcion, FechaRegistro y por los nombres de parcela (ubicacion) y cultivo (tipo)
+        // el campo Descripcion, fecha_registro y por los nombres de parcela (ubicacion) y cultivo (tipo)
         $cultivoparcelas = Cultivoparcela::with('parcela', 'cultivo')
             ->where('Descripcion', 'LIKE', "%{$request->filter}%")
-            ->orWhere('FechaRegistro', 'LIKE', "%{$request->filter}%")
+            ->orWhere('fecha_registro', 'LIKE', "%{$request->filter}%")
             ->orWhereHas('parcela', function($q) use ($request) {
                 $q->where('ubicacion', 'LIKE', "%{$request->filter}%");
             })
@@ -48,14 +48,14 @@ class CultivoparcelasController extends Controller
     public function store(Request $request) {
         Validator::make($request->all(), [
             'Descripcion'   => 'required|string',
-            'FechaRegistro' => 'required|date',
+            'fecha_registro' => 'required|date',
             'parcela_id'    => 'required|exists:parcelas,id',
             'cultivo_id'    => 'required|exists:cultivos,id',
         ], [
             'Descripcion.required'   => 'La descripción es requerida.',
             'Descripcion.string'     => 'La descripción debe ser una cadena de caracteres.',
-            'FechaRegistro.required' => 'La fecha de registro es requerida.',
-            'FechaRegistro.date'     => 'La fecha de registro debe ser una fecha válida.',
+            'fecha_registro.required' => 'La fecha de registro es requerida.',
+            'fecha_registro.date'     => 'La fecha de registro debe ser una fecha válida.',
             'parcela_id.required'    => 'Debe seleccionar una parcela.',
             'parcela_id.exists'      => 'La parcela seleccionada no existe.',
             'cultivo_id.required'    => 'Debe seleccionar un cultivo.',
@@ -65,7 +65,7 @@ class CultivoparcelasController extends Controller
         try {
             $cultivoparcela = new Cultivoparcela();
             $cultivoparcela->Descripcion   = $request->Descripcion;
-            $cultivoparcela->FechaRegistro = $request->FechaRegistro;
+            $cultivoparcela->fecha_registro = $request->fecha_registro;
             $cultivoparcela->parcela_id    = $request->parcela_id;
             $cultivoparcela->cultivo_id    = $request->cultivo_id;
             $cultivoparcela->save();
@@ -95,15 +95,15 @@ class CultivoparcelasController extends Controller
     public function update(Request $request) {
         Validator::make($request->all(), [
             'Descripcion'   => 'required|string',
-            'FechaRegistro' => 'required|date',
+            'fecha_registro' => 'required|date',
             'parcela_id'    => 'required|exists:parcelas,id',
             'cultivo_id'    => 'required|exists:cultivos,id',
             'cultivoparcela_id' => 'required|exists:cultivoparcelas,id',
         ], [
             'Descripcion.required'   => 'La descripción es requerida.',
             'Descripcion.string'     => 'La descripción debe ser una cadena de caracteres.',
-            'FechaRegistro.required' => 'La fecha de registro es requerida.',
-            'FechaRegistro.date'     => 'La fecha de registro debe ser una fecha válida.',
+            'fecha_registro.required' => 'La fecha de registro es requerida.',
+            'fecha_registro.date'     => 'La fecha de registro debe ser una fecha válida.',
             'parcela_id.required'    => 'Debe seleccionar una parcela.',
             'parcela_id.exists'      => 'La parcela seleccionada no existe.',
             'cultivo_id.required'    => 'Debe seleccionar un cultivo.',
@@ -113,7 +113,7 @@ class CultivoparcelasController extends Controller
         try {
             $cultivoparcela = Cultivoparcela::find($request->cultivoparcela_id);
             $cultivoparcela->Descripcion   = $request->Descripcion;
-            $cultivoparcela->FechaRegistro = $request->FechaRegistro;
+            $cultivoparcela->fecha_registro = $request->fecha_registro;
             $cultivoparcela->parcela_id    = $request->parcela_id;
             $cultivoparcela->cultivo_id    = $request->cultivo_id;
             $cultivoparcela->save();

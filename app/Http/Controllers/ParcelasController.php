@@ -68,7 +68,7 @@ class ParcelasController extends Controller
 
             return redirect()->action([ParcelasController::class, 'index']);
 
-        } catch(\Exception $ex){
+        } catch(Exception $ex){
 
             Log::error($ex);
             Session::flash('message', ['content' => 'Ha ocurrido un error', 'type' => 'error']);
@@ -122,7 +122,7 @@ class ParcelasController extends Controller
             Session::flash('message', ['content' => 'Parcela actualizada con éxito', 'type' => 'success']);
             return redirect()->action([ParcelasController::class, 'index']);
 
-        } catch(\Exception $ex){
+        } catch(Exception $ex){
 
             Log::error($ex);
             Session::flash('message', ['content' => 'Ha ocurrido un error', 'type' => 'error']);
