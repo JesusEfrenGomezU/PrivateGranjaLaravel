@@ -71,7 +71,7 @@
                     <thead>
                         <tr>
                             <th>Id</th>
-                            <th>Tamaño</th>
+                            <th>Tamaño (m^2)</th>
                             <th>Ubicacion</th>
                             <th>Estado</th>
                             <th>Usuario</th>

@@ -11,8 +11,13 @@ use Illuminate\Support\Facades\Validator;
 
 class ParcelasController extends Controller
 {
+    //Esta funcion nos pasa todos los cultivos y se los manda a la vista
+    public function create() {
+        $cultivos = \App\Models\Cultivo::all();
+        return view('parcelas.create', compact('cultivos'));
+    }
+
     public function index(Request $request){
-        //Los dos errores son normales, no hay que hacerles nada.
         if (!empty($request->records_per_page)) {
 
             $request->records_per_page = $request->records_per_page <= env('PAGINATION_MAX_SIZE') ? $request->records_per_page
@@ -32,18 +37,21 @@ class ParcelasController extends Controller
     }
 
 
-    public function create(){
+    /*public function create(){
 
        return view('parcelas/create');
-    }
+    }*/
 
-    public function store(Request $request){
-
-        Validator::make($request->all(), [
+    public function store(Request $request) {
+        $validator = Validator::make($request->all(), [
             'tamano'     => 'required|numeric',
             'ubicacion'  => 'required|max:32',
             'estado'     => 'required|max:32',
             'usuario'    => 'required|max:32',
+            'cultivos'   => 'required|array',
+            'cultivos.*' => 'exists:cultivos,id',
+            //En la 51 estamos definiendo el cultivo como un campo necesario para el registro de la parcela
+            //En la 52 le ponemos el comando para que en este campo se muestren todos los cultivos existentes
         ], [
             'tamano.required'    => 'El tamaño es requerido.',
             'tamano.numeric'     => 'El tamaño debe ser un número.',
@@ -53,29 +61,50 @@ class ParcelasController extends Controller
             'estado.max'         => 'El estado no puede tener más de :max caracteres.',
             'usuario.required'   => 'El usuario es requerido.',
             'usuario.max'        => 'El usuario no puede tener más de :max caracteres.',
-        ])->validate();
+            'cultivos.required'  => 'Debe seleccionar al menos un cultivo.',
+            'cultivos.array'     => 'El formato de los cultivos seleccionados no es válido.',
+            'cultivos.*.exists'  => 'Alguno de los cultivos seleccionados no existe.',
+            //Las lineas 64, 65 y 66 son meramente remarcaciones de de avisos en casos donde no se escojan cultivos o lo haga mal
+
+        ]);
+
+        if ($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        } //Esto como tal solo es un seguro contra errores
 
         try {
-
-            $parcela = new Parcela();
+            //Aca ya estamos creando la parcela
+            $parcela = new \App\Models\Parcela();
             $parcela->tamano = $request->tamano;
             $parcela->ubicacion = $request->ubicacion;
             $parcela->estado = $request->estado;
             $parcela->usuario = $request->usuario;
             $parcela->save();
 
-            Session::flash('message', ['content' => 'Parcela creada con éxito', 'type' => 'success']);
+            //Este foreach esta para que recorra los cultivos y vaya creando registro en Cultivoparcelas uno a uno
+            foreach ($request->cultivos as $cultivo_id) {
+                \App\Models\Cultivoparcela::create([
+                    'Descripcion'   => 'Asignación de cultivo a parcela',
+                    'FechaRegistro' => now(),
+                    'parcela_id'    => $parcela->id,
+                    'cultivo_id'    => $cultivo_id,
+                    //Las asignaciones de datos dadas por el registro de la parcela, predeterminadas y de cultivos
+                ]);
+            }
 
+            Session::flash('message', ['content' => 'Parcela creada con éxito junto con sus cultivos', 'type' => 'success']);
             return redirect()->action([ParcelasController::class, 'index']);
 
         } catch(Exception $ex){
-
             Log::error($ex);
             Session::flash('message', ['content' => 'Ha ocurrido un error', 'type' => 'error']);
             return redirect()->back();
-        }
+        } //Este catch solo esta para dar mensaje en caso de cualquier error al generar registro
 
-     }
+        \DB::transaction(function() use ($request, &$parcela) {
+        });//Esto es un rollback para cualquier problema generado al crear registros a la base de datos no le de la palida
+
+    }
 
 
     public function edit($id) {

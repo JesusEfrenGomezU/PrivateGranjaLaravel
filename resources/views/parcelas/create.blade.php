@@ -26,7 +26,7 @@
                     <div class="col-md-12">
                         <div class="form-floating">
                             <input type="number" step="0.01" class="form-control" placeholder="Digite el tamaño..." name="tamano">
-                            <label>Tamaño</label>
+                            <label>Tamaño (m^2)</label>
                         </div>
                     </div>
 
@@ -51,11 +51,23 @@
                         </div>
                     </div>
 
+                    //Aca se mostrarian todos lo cultivos como checkboxes... Canson
+                    <div class="col-md-12">
+                        <label>Seleccione Cultivos</label>
+                            @foreach($cultivos as $cultivo)
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="cultivos[]" value="{{ $cultivo->id }}" id="cultivo_{{ $cultivo->id }}">
+                                    <label class="form-check-label" for="cultivo_{{ $cultivo->id }}">
+                                        {{ $cultivo->tipo }}
+                                    </label>
+                                </div>
+                            @endforeach
+                    </div>
+
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">Guardar</button>
                         <a href="{{ route('parcelas.index') }}" class="btn btn-secondary">Volver</a>
                     </div>
-
                 </form>
 
             </div>
