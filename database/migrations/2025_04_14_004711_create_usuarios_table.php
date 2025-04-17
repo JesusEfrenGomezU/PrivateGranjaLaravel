@@ -11,18 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('cultivoparcelas', function (Blueprint $table) {
+        Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
-            $table->text('Descripcion');
+            $table->string('cedula');
+            $table->string('apellidos');
+            $table->string('nombres');
+            $table->string('password');
+            $table->string('correo');
+            $table->string('telefono');
             $table->date('fecha_registro');
-            $table->unsignedBigInteger('parcela_id');
-            $table->unsignedBigInteger('cultivo_id');
             $table->timestamps();
-
-            $table->foreign('parcela_id')->references('id')->on('parcelas')->onDelete('cascade');
-            $table->foreign('cultivo_id')->references('id')->on('cultivos');
         });
-
     }
 
     /**
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cultivoparcelas');
+        Schema::dropIfExists('usuarios');
     }
 };

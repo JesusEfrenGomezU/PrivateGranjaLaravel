@@ -32,7 +32,7 @@
 
                     <div class="col-md-12">
                         <div class="form-floating">
-                            <input type="date" class="form-control" placeholder="Digite la fecha de registro..." name="FechaRegistro">
+                            <input type="date" class="form-control" placeholder="Digite la fecha de registro..." name="fecha_registro">
                             <label>Fecha de Registro</label>
                         </div>
                     </div>
