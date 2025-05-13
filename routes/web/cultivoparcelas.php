@@ -1,13 +1,16 @@
 <?php
 
 use App\Http\Controllers\CultivoparcelasController;
+use App\Http\Middleware\AuthorizedMiddleware;
 use Illuminate\Support\Facades\Route;
 
 
 
 
 Route::get('/cultivoparcelas', [CultivoparcelasController::class, 'index'])
-     ->name('cultivoparcelas.index');
+     ->name('cultivoparcelas.index')
+     ->middleware(AuthorizedMiddleware::class . ':Cultivoparcelas.showCultivoparcelas');
+
 
 Route::get('/cultivoparcelas/create', [CultivoparcelasController::class, 'create'])
     ->name('cultivoparcelas.create');
