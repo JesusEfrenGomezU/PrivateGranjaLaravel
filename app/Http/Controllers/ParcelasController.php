@@ -145,7 +145,7 @@ class ParcelasController extends Controller
             $parcela->tamano = $request->tamano;
             $parcela->ubicacion = $request->ubicacion;
             $parcela->estado = $request->estado;
-            $parcela->users = $request->us;
+            $parcela->users = $request->users;
             $parcela->save();
 
             Session::flash('message', ['content' => 'Parcela actualizada con éxito', 'type' => 'success']);
