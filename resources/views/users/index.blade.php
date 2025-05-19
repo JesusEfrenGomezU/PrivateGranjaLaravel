@@ -22,14 +22,14 @@
                         <h3>Usuarios</h3>
                     </div>
                     <div class="col-md-1">
-                        <a href="{{ route('usuarios.create') }}" class="btn btn-primary"><i class="bi bi-plus-circle-fill"></i></a>
+                        <a href="{{ route('users.create') }}" class="btn btn-primary"><i class="bi bi-plus-circle-fill"></i></a>
                     </div>
                 </div>
             </div>
 
             <div class="card-body">
                 {{-- Paginador --}}
-                <form action="{{ route('usuarios.index') }}" class="navbar-search" method="GET">
+                <form action="{{ route('users.index') }}" class="navbar-search" method="GET">
 
                     <div class="row mt-3">
                         <div class="col-md-auto">
@@ -76,31 +76,29 @@
                             <th>Nombres</th>
                             <th>Password</th>
                             <th>Correo</th>
-                            <th>Telefono</th>
                             <th>fecha_registro</th>
                             <th></th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        @foreach ($usuarios as $usuario)
+                        @foreach ($users as $user)
                         
                             <tr>
-                                <td>{{ $usuario->id }}</td>
-                                <td>{{ $usuario->cedula }}</td>
-                                <td>{{ $usuario->apellidos }}</td>
-                                <td>{{ $usuario->nombres }}</td>
-                                <td>{{ $usuario->password }}</td>
-                                <td>{{ $usuario->correo }}</td>
-                                <td>{{ $usuario->telefono }}</td>
-                                <td>{{ $usuario->fecha_registro }}</td>
+                                <td>{{ $user->id }}</td>
+                                <td>{{ $user->document }}</td>
+                                <td>{{ $user->last_name }}</td>
+                                <td>{{ $user->first_name }}</td>
+                                <td>{{ $user->password }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>{{ $user->created_at }}</td>
                                 <td>
                                     {{-- Boton edit --}}
-                                    <a href="{{ route('usuarios.edit', $usuario->id) }}" class="btn btn-warning">
+                                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-warning">
                                         <i class="bi bi-pencil-fill"></i>
                                     </a>
                                     {{-- Boton delete --}}
-                                    <form action="{{ route('usuarios.delete', $usuario->id) }}" style="display: contents;" method="POST">
+                                    <form action="{{ route('users.delete', $user->id) }}" style="display: contents;" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-danger btnDelete">
@@ -114,7 +112,7 @@
                     </tbody>
                 </table>
                 {{-- Paginador de la parte inferior --}}
-                {{ $usuarios->appends(request()->except('page'))->links('components.customPagination') }}
+                {{ $users->appends(request()->except('page'))->links('components.customPagination') }}
 
             </div>
         </div>
@@ -133,7 +131,7 @@
 
             Swal.fire({
 
-                title: "¿Desea eliminar este Usuario?",
+                title: "¿Desea eliminar este usuario?",
                 text: "No podrá revertirlo",
                 icon: 'question',
                 showCancelButton: true,

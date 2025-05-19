@@ -16,7 +16,7 @@ return new class extends Migration
             $table->decimal('tamano', 8, 2);
             $table->string('ubicacion', 32);
             $table->string('estado', 32);
-            $table->string('usuario', 32);
+            $table->string('users', 32);
             $table->timestamps();
         });
     }

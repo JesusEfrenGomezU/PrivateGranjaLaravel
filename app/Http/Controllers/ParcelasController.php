@@ -29,7 +29,7 @@ class ParcelasController extends Controller
 
         $parcelas = Parcela::where('ubicacion', 'LIKE', "%$request->filter%")
                         ->orWhere('estado', 'LIKE', "%$request->filter%")
-                        ->orWhere('usuario', 'LIKE', "%$request->filter%")
+                        ->orWhere('users', 'LIKE', "%$request->filter%")
                         ->orWhere('tamano', 'LIKE', "%$request->filter%")
                         ->paginate($request->records_per_page);
 
@@ -47,7 +47,7 @@ class ParcelasController extends Controller
             'tamano'     => 'required|numeric',
             'ubicacion'  => 'required|max:32',
             'estado'     => 'required|max:32',
-            'usuario'    => 'required|max:32',
+            'users'    => 'required|max:32',
             'cultivos'   => 'required|array',
             'cultivos.*' => 'exists:cultivos,id',
             //En la 51 estamos definiendo el cultivo como un campo necesario para el registro de la parcela
@@ -59,8 +59,8 @@ class ParcelasController extends Controller
             'ubicacion.max'      => 'La ubicación no puede tener más de :max caracteres.',
             'estado.required'    => 'El estado es requerido.',
             'estado.max'         => 'El estado no puede tener más de :max caracteres.',
-            'usuario.required'   => 'El usuario es requerido.',
-            'usuario.max'        => 'El usuario no puede tener más de :max caracteres.',
+            'users.required'   => 'El users es requerido.',
+            'users.max'        => 'El users no puede tener más de :max caracteres.',
             'cultivos.required'  => 'Debe seleccionar al menos un cultivo.',
             'cultivos.array'     => 'El formato de los cultivos seleccionados no es válido.',
             'cultivos.*.exists'  => 'Alguno de los cultivos seleccionados no existe.',
@@ -78,7 +78,7 @@ class ParcelasController extends Controller
             $parcela->tamano = $request->tamano;
             $parcela->ubicacion = $request->ubicacion;
             $parcela->estado = $request->estado;
-            $parcela->usuario = $request->usuario;
+            $parcela->users = $request->users;
             $parcela->save();
 
             //Este foreach esta para que recorra los cultivos y vaya creando registro en Cultivoparcelas uno a uno
@@ -126,7 +126,7 @@ class ParcelasController extends Controller
             'tamano'     => 'required|numeric',
             'ubicacion'  => 'required|max:32',
             'estado'     => 'required|max:32',
-            'usuario'    => 'required|max:32',
+            'users'    => 'required|max:32',
             'parcela_id' => 'required|exists:sections,id',
         ], [
             'tamano.required'    => 'El tamaño es requerido.',
@@ -135,8 +135,8 @@ class ParcelasController extends Controller
             'ubicacion.max'      => 'La ubicación no puede tener más de :max caracteres.',
             'estado.required'    => 'El estado es requerido.',
             'estado.max'         => 'El estado no puede tener más de :max caracteres.',
-            'usuario.required'   => 'El usuario es requerido.',
-            'usuario.max'        => 'El usuario no puede tener más de :max caracteres.',
+            'users.required'   => 'El users es requerido.',
+            'users.max'        => 'El users no puede tener más de :max caracteres.',
         ])->validate();
 
         try {
@@ -145,7 +145,7 @@ class ParcelasController extends Controller
             $parcela->tamano = $request->tamano;
             $parcela->ubicacion = $request->ubicacion;
             $parcela->estado = $request->estado;
-            $parcela->usuario = $request->usuario;
+            $parcela->users = $request->us;
             $parcela->save();
 
             Session::flash('message', ['content' => 'Parcela actualizada con éxito', 'type' => 'success']);

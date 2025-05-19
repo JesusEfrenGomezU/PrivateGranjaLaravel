@@ -49,7 +49,7 @@
 
                     <div class="col-md-12">
                         <div class="form-floating">
-                            <input type="text" class="form-control" placeholder="Digite el usuario..." name="usuario" value="{{ $parcela->usuario }}" />
+                            <input type="text" class="form-control" placeholder="Digite el usuario..." name="usuario" value="{{ $parcela->users }}" />
                             <label>Usuario</label>
                         </div>
                     </div>
