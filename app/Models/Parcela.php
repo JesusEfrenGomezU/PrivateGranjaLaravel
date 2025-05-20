@@ -15,7 +15,6 @@ class Parcela extends Model
         'users',
     ];
 
-    
     public function user()
     {
         return $this->belongsTo(User::class);
