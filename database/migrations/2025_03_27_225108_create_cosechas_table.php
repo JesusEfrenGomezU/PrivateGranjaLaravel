@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('cultivo_id');
             $table->integer('Recolectado');
-            $table->string('Medida', 15);
+            $table->string('Medida', 64);
             $table->date('FechaCosecha');
             $table->timestamps();
 

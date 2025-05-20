@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('cultivos', function (Blueprint $table) {
             $table->id();
-            $table->string('tipo', 32);
+            $table->string('tipo', 64);
             $table->date('siembra');
             $table->date('cosecha');
-            $table->string('estado', 32);
+            $table->string('estado', 64);
             $table->timestamps();
         });
     }

@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('parcelas', function (Blueprint $table) {
             $table->id();
-            $table->decimal('tamano', 8, 2);
-            $table->string('ubicacion', 32);
-            $table->string('estado', 32);
-            $table->string('users', 32);
+            $table->decimal('tamano', 64, 2);
+            $table->string('ubicacion', 64);
+            $table->string('estado', 64);
+            $table->string('users', 64);
             $table->timestamps();
         });
     }
