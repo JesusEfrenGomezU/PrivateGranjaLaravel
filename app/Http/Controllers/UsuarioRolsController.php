@@ -24,12 +24,12 @@ class UsuarioRolsController extends Controller
 
         // Se cargan las relaciones para poder mostrar los nombres en la vista y se permite filtrar también por
         // el campo Descripcion, fecha_registro y por los nombres de parcela (ubicacion) y cultivo (tipo)
-        $usuariorols = UsuarioRol::with('usuario', 'rol')
+        $usuariorols = UsuarioRol::with('user', 'rol')
 
            // ->where('usuario_id', 'LIKE', "%{$request->filter}%")
            // ->orWhere('rol_id', 'LIKE', "%{$request->filter}%")
-            ->WhereHas('usuario', function($q) use ($request) {
-                $q->where('usuario_id', 'LIKE', "%{$request->filter}%");
+            ->WhereHas('user', function($q) use ($request) {
+                $q->where('users_id', 'LIKE', "%{$request->filter}%");
             })
             ->orWhereHas('rol', function($q) use ($request) {
                 $q->where('rol_id', 'LIKE', "%{$request->filter}%");

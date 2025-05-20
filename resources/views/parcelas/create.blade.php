@@ -51,7 +51,6 @@
                         </div>
                     </div>
 
-                    //Aca se mostrarian todos lo cultivos como checkboxes... Canson
                     <div class="col-md-12">
                         <label>Seleccione Cultivos</label>
                             @foreach($cultivos as $cultivo)

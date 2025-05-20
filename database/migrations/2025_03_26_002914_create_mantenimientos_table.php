@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('parcela_id');
             //$table->unsignedBigInteger('usuario_id');
-            $table->string('Descripcion');
+            $table->string('Descripcion', 40);
             $table->date('FechaMantenimiento');
             $table->timestamps();
 
