@@ -17,6 +17,7 @@ class ParcelasController extends Controller
         return view('parcelas.create', compact('cultivos'));
     }
 
+    
     public function index(Request $request){
         if (!empty($request->records_per_page)) {
 
@@ -37,11 +38,12 @@ class ParcelasController extends Controller
     }
 
 
+
     /*public function create(){
 
        return view('parcelas/create');
     }*/
-
+    
     public function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'tamano'     => 'required|numeric',
@@ -59,8 +61,8 @@ class ParcelasController extends Controller
             'ubicacion.max'      => 'La ubicación no puede tener más de :max caracteres.',
             'estado.required'    => 'El estado es requerido.',
             'estado.max'         => 'El estado no puede tener más de :max caracteres.',
-            'users.required'   => 'El users es requerido.',
-            'users.max'        => 'El users no puede tener más de :max caracteres.',
+            'users.required'   => 'El usuario es requerido.',
+            'users.max'        => 'El usuario no puede tener más de :max caracteres.',
             'cultivos.required'  => 'Debe seleccionar al menos un cultivo.',
             'cultivos.array'     => 'El formato de los cultivos seleccionados no es válido.',
             'cultivos.*.exists'  => 'Alguno de los cultivos seleccionados no existe.',
@@ -120,6 +122,7 @@ class ParcelasController extends Controller
         return view('parcelas/edit', ['parcela' => $parcela]);
     }
 
+
     public function update(Request $request) {
 
         Validator::make($request->all(), [
@@ -135,8 +138,8 @@ class ParcelasController extends Controller
             'ubicacion.max'      => 'La ubicación no puede tener más de :max caracteres.',
             'estado.required'    => 'El estado es requerido.',
             'estado.max'         => 'El estado no puede tener más de :max caracteres.',
-            'users.required'   => 'El users es requerido.',
-            'users.max'        => 'El users no puede tener más de :max caracteres.',
+            'users.required'   => 'El usuario es requerido.',
+            'users.max'        => 'El usuario no puede tener más de :max caracteres.',
         ])->validate();
 
         try {
@@ -145,7 +148,7 @@ class ParcelasController extends Controller
             $parcela->tamano = $request->tamano;
             $parcela->ubicacion = $request->ubicacion;
             $parcela->estado = $request->estado;
-            $parcela->users = $request->us;
+            $parcela->users = $request->users;
             $parcela->save();
 
             Session::flash('message', ['content' => 'Parcela actualizada con éxito', 'type' => 'success']);
@@ -159,6 +162,8 @@ class ParcelasController extends Controller
         }
     }
 
+
+    
     public function delete($id) {
 
         try {
