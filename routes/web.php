@@ -31,6 +31,7 @@ include('web/cultivos.php');
 include('web/cosechas.php');
 include('web/cultivoparcelas.php');
 include('web/usuarios.php');
+include('web/rols.php');
 
 Route::get('/parcelas' , [ParcelasController::class, 'index'])->name('parcelas.index');
 Route::get('/parcelas/create' , [ParcelasController::class, 'create'])->name('parcelas.create');
