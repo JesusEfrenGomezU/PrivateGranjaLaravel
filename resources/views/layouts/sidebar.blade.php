@@ -9,14 +9,6 @@
             </a>
         </li><!-- End Dashboard Nav -->
 
-        @if (\App\Helpers\RolHelper::isAuthorized('Secciones.showSections'))
-            <li class="nav-item">
-                <a class="nav-link {{ Request::routeIs('sections.*') ? '' : 'collapsed' }}" href="{{ route('sections.index') }}">
-                    <i class="bi bi-menu-button-wide"></i>
-                    <span>Secciones</span>
-                </a>
-            </li>
-        @endif
 
         @if (\App\Helpers\RolHelper::isAuthorized('Parcelas.showParcelas'))
         <li class="nav-item">
@@ -64,12 +56,6 @@
         @endif
 
 
-        <li class="nav-item">
-            <a class="nav-link {{ Request::routeIs('usuarios.*') ? '' : 'collapsed' }}" href="{{ route('usuarios.index') }}">
-                <i class="bi bi-menu-button-wide"></i>
-                <span>Usuarios</span>
-            </a>
-        </li>
 
     </ul>
 

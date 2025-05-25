@@ -16,8 +16,10 @@ return new class extends Migration
             $table->decimal('tamano', 64, 2);
             $table->string('ubicacion', 64);
             $table->string('estado', 64);
-            $table->string('users', 64);
+            $table->unsignedBigInteger('users_id');
             $table->timestamps();
+
+            $table->foreign('users_id')->references('id')->on('users');
         });
     }
 

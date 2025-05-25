@@ -17,6 +17,6 @@ class Parcela extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'users_id'); // Asegúrate de que 'users_id' sea el nombre correcto de la columna
     }
 }
