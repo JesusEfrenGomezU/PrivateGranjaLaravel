@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class ParcelasController extends Controller
 {
@@ -18,23 +19,22 @@ class ParcelasController extends Controller
     }
 
     
-    public function index(Request $request){
+    public function index(Request $request)
+    {
         if (!empty($request->records_per_page)) {
-
             $request->records_per_page = $request->records_per_page <= env('PAGINATION_MAX_SIZE') ? $request->records_per_page
-                                                                                                : env('PAGINATION_MAX_SIZE');
+                : env('PAGINATION_MAX_SIZE');
         } else {
-
             $request->records_per_page = env('PAGINATION_DEFAULT_SIZE');
         }
-
-        $parcelas = Parcela::where('ubicacion', 'LIKE', "%$request->filter%")
-                        ->orWhere('estado', 'LIKE', "%$request->filter%")
-                        ->orWhere('users', 'LIKE', "%$request->filter%")
-                        ->orWhere('tamano', 'LIKE', "%$request->filter%")
-                        ->paginate($request->records_per_page);
-
-        return view('parcelas/index', [ 'parcelas' => $parcelas, 'data' => $request ]);
+        // Cargar la relación 'user' y aplicar los filtros
+        $parcelas = Parcela::with('user') // Cargar la relación 'user'
+            ->where('ubicacion', 'LIKE', "%$request->filter%")
+            ->orWhere('estado', 'LIKE', "%$request->filter%")
+            ->orWhere('users_id', 'LIKE', "%$request->filter%")
+            ->orWhere('tamano', 'LIKE', "%$request->filter%")
+            ->paginate($request->records_per_page);
+        return view('parcelas.index', ['parcelas' => $parcelas, 'data' => $request]);
     }
 
 
@@ -49,7 +49,6 @@ class ParcelasController extends Controller
             'tamano'     => 'required|numeric',
             'ubicacion'  => 'required|max:32',
             'estado'     => 'required|max:32',
-            'users'    => 'required|max:32',
             'cultivos'   => 'required|array',
             'cultivos.*' => 'exists:cultivos,id',
             //En la 51 estamos definiendo el cultivo como un campo necesario para el registro de la parcela
@@ -61,8 +60,6 @@ class ParcelasController extends Controller
             'ubicacion.max'      => 'La ubicación no puede tener más de :max caracteres.',
             'estado.required'    => 'El estado es requerido.',
             'estado.max'         => 'El estado no puede tener más de :max caracteres.',
-            'users.required'   => 'El usuario es requerido.',
-            'users.max'        => 'El usuario no puede tener más de :max caracteres.',
             'cultivos.required'  => 'Debe seleccionar al menos un cultivo.',
             'cultivos.array'     => 'El formato de los cultivos seleccionados no es válido.',
             'cultivos.*.exists'  => 'Alguno de los cultivos seleccionados no existe.',
@@ -80,14 +77,14 @@ class ParcelasController extends Controller
             $parcela->tamano = $request->tamano;
             $parcela->ubicacion = $request->ubicacion;
             $parcela->estado = $request->estado;
-            $parcela->users = $request->users;
+            $parcela->users_id = Auth::id(); // Obtener el ID del usuario autenticado
             $parcela->save();
 
             //Este foreach esta para que recorra los cultivos y vaya creando registro en Cultivoparcelas uno a uno
             foreach ($request->cultivos as $cultivo_id) {
                 \App\Models\Cultivoparcela::create([
                     'Descripcion'   => 'Asignación de cultivo a parcela',
-                    'FechaRegistro' => now(),
+                    'fecha_registro' => now(),
                     'parcela_id'    => $parcela->id,
                     'cultivo_id'    => $cultivo_id,
                     //Las asignaciones de datos dadas por el registro de la parcela, predeterminadas y de cultivos
@@ -99,6 +96,7 @@ class ParcelasController extends Controller
 
         } catch(Exception $ex){
             Log::error($ex);
+
             Session::flash('message', ['content' => 'Ha ocurrido un error', 'type' => 'error']);
             return redirect()->back();
         } //Este catch solo esta para dar mensaje en caso de cualquier error al generar registro
@@ -129,8 +127,7 @@ class ParcelasController extends Controller
             'tamano'     => 'required|numeric',
             'ubicacion'  => 'required|max:32',
             'estado'     => 'required|max:32',
-            'users'    => 'required|max:32',
-            'parcela_id' => 'required|exists:sections,id',
+            'parcela_id' => 'required|exists:parcelas,id',
         ], [
             'tamano.required'    => 'El tamaño es requerido.',
             'tamano.numeric'     => 'El tamaño debe ser un número.',
@@ -138,8 +135,6 @@ class ParcelasController extends Controller
             'ubicacion.max'      => 'La ubicación no puede tener más de :max caracteres.',
             'estado.required'    => 'El estado es requerido.',
             'estado.max'         => 'El estado no puede tener más de :max caracteres.',
-            'users.required'   => 'El usuario es requerido.',
-            'users.max'        => 'El usuario no puede tener más de :max caracteres.',
         ])->validate();
 
         try {
@@ -148,7 +143,7 @@ class ParcelasController extends Controller
             $parcela->tamano = $request->tamano;
             $parcela->ubicacion = $request->ubicacion;
             $parcela->estado = $request->estado;
-            $parcela->users = $request->users;
+            $parcela->users_id = Auth::id();
             $parcela->save();
 
             Session::flash('message', ['content' => 'Parcela actualizada con éxito', 'type' => 'success']);

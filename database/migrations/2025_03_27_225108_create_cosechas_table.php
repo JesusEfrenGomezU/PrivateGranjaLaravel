@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('FechaCosecha');
             $table->timestamps();
 
-            $table->foreign('cultivo_id')->references('id')->on('cultivos');
+            $table->foreign('cultivo_id')->references('id')->on('cultivos')->onDelete('cascade');
         });
     }
 

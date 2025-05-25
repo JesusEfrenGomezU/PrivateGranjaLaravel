@@ -87,7 +87,7 @@
                                 <td>{{ $parcela->tamano }}</td>
                                 <td>{{ $parcela->ubicacion }}</td>
                                 <td>{{ $parcela->estado }}</td>
-                                <td>{{ $parcela->users }}</td>
+                                <td>{{ $parcela->user ? $parcela->user->first_name . ' ' . $parcela->user->last_name : 'Sin usuario' }}</td>
                                 <td>
                                     {{-- Boton edit --}}
                                     <a href="{{ route('parcelas.edit', $parcela->id) }}" class="btn btn-warning">

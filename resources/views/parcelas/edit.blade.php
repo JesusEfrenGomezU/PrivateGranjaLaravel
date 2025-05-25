@@ -47,13 +47,6 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" placeholder="Digite el usuario..." name="usuario" value="{{ $parcela->users }}" />
-                            <label>Usuario</label>
-                        </div>
-                    </div>
-
                     <div class="text-center">
                         <button type="submit" class="btn btn-primary">Guardar</button>
                         <a href="{{ route('parcelas.index') }}" class="btn btn-secondary">Volver</a>
