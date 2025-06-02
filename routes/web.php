@@ -24,13 +24,12 @@ require __DIR__.'/auth.php';
 
 
 
-include('web/sections.php');
 include('web/parcelas.php');
 include('web/mantenimientos.php');
 include('web/cultivos.php');
 include('web/cosechas.php');
 include('web/cultivoparcelas.php');
-include('web/usuarios.php');
+//include('web/usuarios.php');
 
 Route::get('/parcelas' , [ParcelasController::class, 'index'])->name('parcelas.index');
 Route::get('/parcelas/create' , [ParcelasController::class, 'create'])->name('parcelas.create');
