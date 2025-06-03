@@ -25,43 +25,35 @@
 
                     <div class="col-md-12">
                         <div class="form-floating">
-                            <input type="number" step="0.01" class="form-control" placeholder="Digite el tamaño..." name="tamano">
+                            <input type="number" step="0.01" class="form-control" placeholder="Digite el tamaño..." name="tamano" required>
                             <label>Tamaño (m^2)</label>
                         </div>
                     </div>
 
                     <div class="col-md-12">
                         <div class="form-floating">
-                            <input type="text" class="form-control" placeholder="Digite la ubicación..." name="ubicacion">
+                            <input type="text" class="form-control" placeholder="Digite la ubicación..." name="ubicacion" required>
                             <label>Ubicación</label>
                         </div>
                     </div>
 
                     <div class="col-md-12">
                         <div class="form-floating">
-                            <input type="text" class="form-control" placeholder="Digite el estado..." name="estado">
+                            <input type="text" class="form-control" placeholder="Digite el estado..." name="estado" required>
                             <label>Estado</label>
                         </div>
                     </div>
 
                     <div class="col-md-12">
-                        <div class="form-floating">
-                            <input type="text" class="form-control" placeholder="Digite el usuario..." name="usuario">
-                            <label>Usuario</label>
-                        </div>
-                    </div>
-
-                    //Aca se mostrarian todos lo cultivos como checkboxes... Canson
-                    <div class="col-md-12">
                         <label>Seleccione Cultivos</label>
-                            @foreach($cultivos as $cultivo)
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="cultivos[]" value="{{ $cultivo->id }}" id="cultivo_{{ $cultivo->id }}">
-                                    <label class="form-check-label" for="cultivo_{{ $cultivo->id }}">
-                                        {{ $cultivo->tipo }}
-                                    </label>
-                                </div>
-                            @endforeach
+                        @foreach($cultivos as $cultivo)
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="cultivos[]" value="{{ $cultivo->id }}" id="cultivo_{{ $cultivo->id }}">
+                                <label class="form-check-label" for="cultivo_{{ $cultivo->id }}">
+                                    {{ $cultivo->tipo }}
+                                </label>
+                            </div>
+                        @endforeach
                     </div>
 
                     <div class="text-center">

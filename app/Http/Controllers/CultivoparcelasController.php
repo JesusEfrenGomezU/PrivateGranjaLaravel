@@ -38,6 +38,7 @@ class CultivoparcelasController extends Controller
         return view('cultivoparcelas.index', ['cultivoparcelas' => $cultivoparcelas, 'data' => $request]);
     }
 
+    /*
     public function create() {
         // Se obtienen todas las parcelas y cultivos para los desplegables
         $parcelas = Parcela::all();
@@ -143,5 +144,5 @@ class CultivoparcelasController extends Controller
             Session::flash('message', ['content' => 'Ha ocurrido un error', 'type' => 'error']);
             return redirect()->back();
         }
-    }
+    }*/
 }

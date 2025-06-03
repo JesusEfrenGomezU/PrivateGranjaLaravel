@@ -13,11 +13,13 @@ return new class extends Migration
     {
         Schema::create('parcelas', function (Blueprint $table) {
             $table->id();
-            $table->decimal('tamano', 8, 2);
-            $table->string('ubicacion', 32);
-            $table->string('estado', 32);
-            $table->string('usuario', 32);
+            $table->decimal('tamano', 64, 2);
+            $table->string('ubicacion', 64);
+            $table->string('estado', 64);
+            $table->unsignedBigInteger('users_id');
             $table->timestamps();
+
+            $table->foreign('users_id')->references('id')->on('users');
         });
     }
 

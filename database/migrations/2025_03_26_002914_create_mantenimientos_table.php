@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('parcela_id');
             //$table->unsignedBigInteger('usuario_id');
-            $table->string('Descripcion');
+            $table->string('Descripcion', 100);
             $table->date('FechaMantenimiento');
             $table->timestamps();
 
-            $table->foreign('parcela_id')->references('id')->on('parcelas');
+            $table->foreign('parcela_id')->references('id')->on('parcelas')->onDelete('cascade');
             //$table->foreign('usuario_id')->references('id')->on('usuarios');
         });
     }

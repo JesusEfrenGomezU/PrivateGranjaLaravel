@@ -9,12 +9,12 @@ class UsuarioRol extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'usuario_id',
+        'users_id',
         'rol_id',
     ];
-    public function usuario()
+    public function user()
     {
-        return $this->belongsTo(Usuario::class);
+        return $this->belongsTo(User::class);
     }
 
     public function rol()
