@@ -55,6 +55,14 @@
         </li>
         @endif
 
+        @if (\App\Helpers\RolHelper::isAuthorized('Rols.showRols'))
+        <li class="nav-item">
+            <a class="nav-link {{ Request::routeIs('rols.*') ? '' : 'collapsed' }}" href="{{ route('rols.index') }}">
+                <i class="bi bi-menu-button-wide"></i>
+                <span>Roles</span>
+            </a>
+        </li>
+        @endif
 
 
     </ul>

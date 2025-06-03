@@ -25,6 +25,12 @@ class PermissionsSeeder extends Seeder
             ['name' => 'updateSections', 'description' => 'Actualizar Secciones', 'module' => 'Secciones'],
             ['name' => 'deleteSections', 'description' => 'Eliminar Secciones', 'module' => 'Secciones'],
 
+            //Roles
+            ['name' => 'showRols', 'description' => 'Ver Roles', 'module' => 'Rols'],
+            ['name' => 'createRols', 'description' => 'Crear Roles', 'module' => 'Rols'],
+            ['name' => 'updateRols', 'description' => 'Actualizar Roles', 'module' => 'Rols'],
+            ['name' => 'deleteRols', 'description' => 'Eliminar Roles', 'module' => 'Rols'],
+
             // Cultivoparcelas
             ['name' => 'showCultivoparcelas', 'description' => 'Ver Cultivoparcelas', 'module' => 'Cultivoparcelas'],
 
