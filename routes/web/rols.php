@@ -12,7 +12,7 @@ Route::get('/rols/create', [RolsController::class, 'create'])
     ->name('rols.create')
     ->middleware(AuthorizedMiddleware::class . ':Rols.createRols');
 
-Route::get('/rols/edit/{id', [RolsController::class, 'edit'])
+Route::get('/rols/edit/{id}', [RolsController::class, 'edit'])
      ->name('rols.edit')
      ->middleware(AuthorizedMiddleware::class . ':Rols.updateRols');
 
@@ -20,10 +20,10 @@ Route::post('/rols/store', [RolsController::class, 'store'])
      ->name('rols.store')
      ->middleware(AuthorizedMiddleware::class . ':Rols.createRols');
 
-Route::put('/rols/update', [RolsController::class, 'update'])
+Route::put('/rols/update/{id}', [RolsController::class, 'update'])
      ->name('rols.update')
      ->middleware(AuthorizedMiddleware::class . ':Rols.updateRols');
 
-Route::delete('/rols/delete/{id', [RolsController::class, 'delete'])
+Route::delete('/rols/delete/{id}', [RolsController::class, 'delete'])
      ->name('rols.delete')
      ->middleware(AuthorizedMiddleware::class . ':Rols.deleteRols');

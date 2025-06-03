@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Permission;   // <-- acá
-use App\Models\Section;
+use App\Models\RolPermission;
+use App\Models\Permission;
 use App\Models\Rol;
 use Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
@@ -33,17 +34,13 @@ class RolsController extends Controller
 
     public function create(){
         $modules = Permission::all() -> groupby('module');
-
-        $sectionGroups = Section::all() -> chunk(5);
-
         return view('rols/create', [
                     'modules' => $modules,
-                    'sectionGroups' => $sectionGroups,
         ]);
     }
 
     public function edit($id){
-        $rol = Rol::fund($id);
+        $rol = Rol::find($id);
 
         if (empty($rol)) {
             Session::flash('message', ['content' => "El rol con el id '$id' no existe.", 'type' => 'error']);
@@ -55,45 +52,40 @@ class RolsController extends Controller
         $sections = $sections->map(function($item) use($id){
             $item->selected = false;
 
-            $rolPermission = RolPermission::where('permission_id', '=', item->$id)
+            $rolPermission = RolPermission::where('permission_id', '=', $item->$id)
                                             ->where('rol_id', '=', $id)
                                             ->first();
         });
 
-        $module = Permission::all() -> groupby('module');
+        $modules = Permission::all() -> groupby('modules');
 
-        $sectionGroups = Section::all() -> chunk(5);
-
-        return view('rols/create', [
+        return view('rols/edit', [
                     'rol' => $rol,
                     'modules' => $modules,
-                    'sectionGroups' => $sectionGroups
         ]);
     }
 
     public function store(Request $request){
+
         Validator::make($request->all(), [
 
             'name' => 'required|max:64',
-            'permission' => 'required|json',
-            'section' => 'required|json',
+            'permissions' => 'required|json',
 
         ], [
             'name.required' => 'El nombre es requerido',
             'name.max' => 'El nombre no puede tener mas de :max caracteres',
-            'permission.required' => 'Debe elegir al menos un permiso',
-            'permission.json' => 'El campo se encuentra en el formato incorrecto',
-            'section.required' => 'Seleccione al menos una seccion',
-            'section.json' => 'El campo se encuentra en el formato incorrecto',
+            'permissions.required' => 'Debe elegir al menos un permiso',
+            'permissions.json' => 'El campo se encuentra en el formato incorrecto',
         ])->validate();
 
         try {
-            BD::transaction(function() use($request){
+            \DB::transaction(function() use($request){
                 $rol = new Rol();
                 $rol->name = $request->name;
                 $rol->save();
 
-                $permissions = json_decode($request->permissions);
+                $permissions = json_decode($request->input('permissions'), true);
 
                 foreach ($permissions as $permission) {
                     $rolPermission = new RolPermission();
@@ -101,19 +93,10 @@ class RolsController extends Controller
                     $rolPermission->permission_id = $permission;
                     $rolPermission->save();
                 }
-
-                $sections = json_decode($request->sections);
-
-                foreach ($sections as $section) {
-                    $rolSection = new RolSection();
-                    $rolSection->rol_id = $rol->id;
-                    $rolSection->Section_id = $sention;
-                    $rolSection->save();
-                }
             });
 
             Session::flash('message', ['content' => 'Rol creado con exito', 'type' => 'succes']);
-            return redirect()->action([RolsController::class, 'rols.index']);
+            return redirect()->route('rols.index');
         } catch (Exception $ex) {
             Log::error($ex);
             Session::flash('message', ['content' => 'Ha ocurrido un error', 'type' => 'error']);
@@ -121,27 +104,15 @@ class RolsController extends Controller
         }
     }
 
-    public function update(Request $request){
-        Validator::make(Request->all(), [
-
-            'rol_id' => 'required|exist:rol,id',
+    public function update(Request $request, $id) {
+        Validator::make($request->all(), [
             'name' => 'required|max:64',
-            'permission' => 'required|json',
-            'section' => 'required|json',
-
-        ], [
-            'rol_id.required' => 'El id del rol es requerido',
-            'name.required' => 'El nombre es requerido',
-            'name.max' => 'El nombre no puede tener mas de :max caracteres',
-            'permission.required' => 'Debe elegir al menos un permiso',
-            'permission.json' => 'El campo se encuentra en el formato incorrecto',
-            'section.required' => 'Seleccione al menos una seccion',
-            'section.json' => 'El campo se encuentra en el formato incorrecto',
+            'permissions' => 'required|json',
         ])->validate();
 
         try {
-            BD::transaction(function() use($request){
-                $rol = Rol::find($request->rol_id);
+            \DB::transaction(function() use($request, $id) {
+                $rol = Rol::find($id);
                 $rol->name = $request->name;
                 $rol->save();
 
@@ -155,22 +126,36 @@ class RolsController extends Controller
                     $rolPermission->permission_id = $permission;
                     $rolPermission->save();
                 }
-
-                RolSection::where('rol_id', '=', $rol->id)->delete();
-
-                $sections = json_decode($request->sections);
-
-                foreach ($sections as $section) {
-                    $rolSection = new RolPermission();
-                    $rolSection->rol_id = $rol->id;
-                    $rolSection->Section_id = $sention;
-                    $rolSection->save();
-                }
             });
 
-            Session::flash('message', ['content' => 'Rol actualizado con exito', 'type' => 'succes']);
-            return redirect()->action([RolsController::class, 'rols.index']);
-        } catch (Exception $ex) {
+            Session::flash('message', ['content' => 'Rol actualizado con éxito', 'type' => 'success']);
+            return redirect()->route('rols.index');
+        } catch (\Exception $ex) {
+            Log::error($ex);
+            Session::flash('message', ['content' => 'Ha ocurrido un error', 'type' => 'error']);
+            return redirect()->back();
+        }
+    }
+
+    public function delete($id) {
+
+        try {
+
+            $rol = Rol::find($id);
+
+            if (empty($rol)) {
+
+                Session::flash('message', ['content' => "El rol con id: '$id' no existe.", 'type' => 'error']);
+                return redirect()->back();
+            }
+
+            $rol->delete();
+
+            Session::flash('message', ['content' => 'Rol eliminada con éxito', 'type' => 'success']);
+            return redirect()->action([RolsController::class, 'index']);
+
+        } catch(Exception $ex){
+
             Log::error($ex);
             Session::flash('message', ['content' => 'Ha ocurrido un error', 'type' => 'error']);
             return redirect()->back();

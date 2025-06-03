@@ -15,7 +15,7 @@
     <section class="section dashboard">
             {{-- Roles --}}
             <div class="card shadow mt-3">
-                <div class="card body">
+                <div class="card-body">
                     <h3 class="card-title">Nuevo rol</h3>
                     <form action="{{ route('rols.store')}}" method="POST" id="frmCreate">
                         @csrf
@@ -32,31 +32,10 @@
                     </form>
                 </div>
             </div>
-            {{-- Secciones --}}
-            <div class="card shadow mb-4">
-                <div class="card-body">
-                    <h3 class="car-tittle">Secciones</h3>
-
-                    <div class="row">
-                        @foreach($sectionGroups as $key => $group)
-
-                            <div class="col-md-3 mt-3">
-                                @foreach($group as $item)
-                                    <div class="form-check form-switch">
-                                        <input type="checkbox" class="form-check-input section" data-section-id="{{ $item->id }}" id="section_{{ $item->id }}">
-
-                                        <label for="section_{{ $item->id }}" class="form-check-label">{{ $item->name }}</label>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
             {{-- Permisos --}}
-            <div class="card shadow mb-4">
+            <div class="card shadow mt-3">
                 <div class="card-body">
-                    <h3 class="car-tittle">Permisos</h3>
+                    <h3 class="card-tittle">Permisos</h3>
 
                     <div class="row">
                         @foreach($modules as $key => $module)
@@ -79,40 +58,28 @@
             </div>
 
             <div class="text-center">
-                <button type="submit" class="btn btn-primary" form="frmCreate" id="btnSave">Guardar</button>
-                <button href="{{ route('rols.index') }}" class="btn btn-secundary">Volver</button>
+                <button type="button" class="btn btn-primary" id="btnSave">Guardar</button>
+                <a href="{{ route('rols.index') }}" class="btn btn-secondary">Volver</a>
             </div>
     </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const btnSave = document.getElementById('btnSave');
+            const form = document.getElementById('frmCreate');
+
+            btnSave.addEventListener('click', function () {
+                const permissions = document.querySelectorAll('.permission:checked');
+
+                const permissionIds = Array.from(permissions).map(p => p.dataset.permissionId);
+
+                document.getElementById('permissions').value = JSON.stringify(permissionIds);
+
+                console.log('Permissions:', permissionIds);
+
+                form.submit(); // <== Ahora enviamos el form con datos bien cargados
+            });
+        });
+    </script>
 @endsection
 
-<script type="module">
-    $(document).ready(function() {
-        $('#btnSave').click(function(event) {
-            //Secciones
-           const sections = $('.section:checked')
-
-           let sectionsIds = [];
-
-           sections.each(function () {
-                const permissionId = $(this).data('section->id');
-                sectionsIds.push(sectionId);
-           });
-
-           console.log(sectionsIds);
-
-           $('#sections').val(JSON.stringify(sectionsIds));
-
-           //Permisos
-           const permissions = $('.permission:checked')
-
-           let permissionsIds = [];
-
-           permissions.each(function () {
-                const permissionId = $(this).data('permission->id');
-                permissionsIds.push(permissionId);
-           });
-
-           $('#permissions').val(JSON.stringify(permissionsIds));
-        });
-    });
-</script>
