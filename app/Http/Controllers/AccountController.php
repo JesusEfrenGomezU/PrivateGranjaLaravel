@@ -87,7 +87,7 @@ class AccountController extends Controller
 
         try {
             $user = Auth::user();
-            if (Hash::check($request -> current_password, $user -> password)) {
+            if (! Hash::check($request -> current_password, $user -> password)) {
                 Session::flash('message', ['content' => 'La contraseña actual es incorrecta', 'type' => 'error']);
                 return redirect()->back();
             }
